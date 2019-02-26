@@ -6,7 +6,7 @@ word = input("Type the word: ")
 tiempo_inicial = time()
 #iloc: Select row by index label.
 columns = ['id', 'title', 'content']
-allFiles = glob.glob("all-the-news/*.csv")
+allFiles = glob.glob("*.csv")
 frame = pd.DataFrame()
 list_ = []
 dictionary = {}
@@ -24,7 +24,7 @@ frame = pd.concat(list_)
 for i,content in enumerate(frame['content']):
     count = 0
     for article in content.split():
-        if word == article:
+        if word.lower() == article.lower():
             count+=1
     if count > 0:
         dictionary[frame['id'].iloc[i]] = count, frame['title'].iloc[i] #adding to a hashmap
