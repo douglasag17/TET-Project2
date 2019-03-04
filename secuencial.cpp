@@ -6,15 +6,16 @@
 #include <algorithm>
 #include <map>
 #include <iterator>
+#include <ctype.h> //toupper y tolower
+#include <stdio.h>
 
 using namespace std;
 
 int main() {
     string line;
-    vector<vector<string>> lines;
+    vector<vector<string> > lines;
     multimap<string, string> dictionary; 
     ifstream file("all-the-news/articles1.csv");
-
     if (file) {
         while (getline(file, line)) {
             size_t n = lines.size();
@@ -37,11 +38,17 @@ int main() {
     string word;
     cout << "Ingrese una palabra: ";
     cin >> word;
+    string wordUpper = word;
+	string wordLower = word;
+    int j = 0;
+	for(int i = 0; i < word.length(); i++) {
+		wordUpper[i] = toupper(word[i]);
+		wordLower[j] = tolower(word[j]);
+		j++;
+	}
     for (auto line : lines) {
         int length = line.size();
         if(length > 4) {
-            //cout << "| " << line[1] << " |";
-            //cout << "| " << line[2] << " |";
             replace(line[length-1].begin(), line[length-1].end(), ',', ' ');
             replace(line[length-1].begin(), line[length-1].end(), '.', ' ');
             replace(line[length-1].begin(), line[length-1].end(), ';', ' ');
@@ -49,23 +56,21 @@ int main() {
             replace(line[length-1].begin(), line[length-1].end(), '?', ' ');
             replace(line[length-1].begin(), line[length-1].end(), '!', ' ');
             replace(line[length-1].begin(), line[length-1].end(), '"', ' ');
-            //cout << "| " << line[length-1] << " |";
             stringstream ss(line[length-1]);
             string token;
             int count = 0;
             while (getline(ss, token, ' ')) {
-                if(token.compare(word) == 0){
+                if(token.compare(wordLower) == 0 || token.compare(wordUpper) == 0){
                     count++;
                 }
             }
             if (count > 0) {
-                // adding to a multimap
-                dictionary.insert(pair<string, string>(line[1], line[2]));
+                dictionary.insert(pair<string, string>(line[1], line[2])); // adding to a multimap
             }
         }
     }
     // printing multimap dictionary
-    multimap<string, string>::iterator itr; 
+    multimap<string, string>::iterator itr;
     for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) { 
         cout << itr->first << '\t' << itr->second << '\n'; 
     }
