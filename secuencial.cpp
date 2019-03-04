@@ -39,13 +39,13 @@ int main() {
     cout << "Ingrese una palabra: ";
     cin >> word;
     string wordUpper = word;
-	string wordLower = word;
+    string wordLower = word;
     int j = 0;
-	for(int i = 0; i < word.length(); i++) {
-		wordUpper[i] = toupper(word[i]);
-		wordLower[j] = tolower(word[j]);
-		j++;
-	}
+    for(int i = 0; i < word.length(); i++) {
+	wordUpper[i] = toupper(word[i]);
+	wordLower[j] = tolower(word[j]);
+	j++;
+    }
     for (auto line : lines) {
         int length = line.size();
         if(length > 4) {
