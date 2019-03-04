@@ -13,7 +13,7 @@
 - Documentación [pcam.md](pcam.md)
 
 ## Proceso de compilación y ejecución
-    make
+    g++ -std=c++11 secuencial.cpp -o secuencial
     ./secuencial
 
 ## Análisis de resultados
