@@ -59,7 +59,7 @@ int main()
     cout << "Ingrese una palabra: ";
     cin >> word;
     word = toLower(word);
-    vector<string> files = {"cami/articles1.csv", "cami/articles2.csv", "cami/articles3.csv"};
+    vector<string> files = {"articles1.csv", "articles2.csv", "articles3.csv"};
     int totalCount = 0;
     for (int i = 0; i < 3; ++i)
     {
@@ -69,6 +69,7 @@ int main()
             int length = line.size();
             if (length > 4)
             {
+                string aux = "’“";
                 replace(line[length - 1].begin(), line[length - 1].end(), ',', ' ');
                 replace(line[length - 1].begin(), line[length - 1].end(), '.', ' ');
                 replace(line[length - 1].begin(), line[length - 1].end(), ';', ' ');
@@ -76,6 +77,8 @@ int main()
                 replace(line[length - 1].begin(), line[length - 1].end(), '?', ' ');
                 replace(line[length - 1].begin(), line[length - 1].end(), '!', ' ');
                 replace(line[length - 1].begin(), line[length - 1].end(), '"', ' ');
+                replace(line[length - 1].begin(), line[length - 1].end(), aux[0], ' ');
+                replace(line[length - 1].begin(), line[length - 1].end(), aux[1], ' ');
                 stringstream ss(line[length - 1]);
                 string token;
                 int count = 0;
