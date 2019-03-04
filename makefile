@@ -3,7 +3,7 @@
 all: secuencial
 
 secuencial: secuencial.o
-	g++ -o $@ $^
+	g++ -std=c++14 -o $@ $^
 
 secuencial.o: secuencial.cpp
 
