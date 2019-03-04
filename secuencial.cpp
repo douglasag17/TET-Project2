@@ -42,9 +42,9 @@ int main() {
     string wordLower = word;
     int j = 0;
     for(int i = 0; i < word.length(); i++) {
-	wordUpper[i] = toupper(word[i]);
-	wordLower[j] = tolower(word[j]);
-	j++;
+        wordUpper[i] = toupper(word[i]);
+        wordLower[j] = tolower(word[j]);
+        j++;
     }
     for (auto line : lines) {
         int length = line.size();
@@ -65,7 +65,7 @@ int main() {
                 }
             }
             if (count > 0) {
-                dictionary.insert(pair<string, string>(line[1], line[2])); // adding to a multimap
+                dictionary.insert(pair<string, string>(to_string(count) + "\t" + line[1], line[2])); // adding to a multimap
             }
         }
     }
