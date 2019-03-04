@@ -59,7 +59,8 @@ int main()
     cout << "Ingrese una palabra: ";
     cin >> word;
     word = toLower(word);
-    vector<string> files = {"articles1.csv", "articles2.csv", "articles3.csv"};
+    vector<string> files = {"cami/articles1.csv", "cami/articles2.csv", "cami/articles3.csv"};
+    int totalCount = 0;
     for (int i = 0; i < 3; ++i)
     {
         vector<vector<string>> lines = readFiles(files[i]);
@@ -83,6 +84,7 @@ int main()
                     if (toLower(token).compare(word) == 0)
                     {
                         count++;
+                        totalCount++;
                     }
                 }
                 if (count > 0)
@@ -100,5 +102,6 @@ int main()
         if(i == 9) break;
         i++;
     }
+    cout << word + " is " << totalCount << " times in all the news." << endl;
     return 0;
 }
