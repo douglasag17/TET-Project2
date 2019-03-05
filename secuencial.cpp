@@ -52,12 +52,10 @@ string toLower(string wordP)
     return word;
 }
 
-int main()
+int main(int argc, char const *argv[])
 {
     multimap<int, string, greater<int>> dictionary;
-    string word;
-    cout << "Ingrese una palabra: ";
-    cin >> word;
+    string word = argv[1];
     word = toLower(word);
     vector<string> files = {"articles1.csv", "articles2.csv", "articles3.csv"};
     int totalCount = 0;
