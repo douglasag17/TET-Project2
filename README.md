@@ -14,7 +14,10 @@
 
 ## Proceso de compilación y ejecución
     g++ -std=c++11 secuencial.cpp -o secuencial
-    ./secuencial
+    ./secuencial <word>
+    
+    g++ -std=c++11 openmp.cpp -o openmp -fopenmp
+    ./openmp <word>
 
 ## Análisis de resultados
 - ### Versión serial
