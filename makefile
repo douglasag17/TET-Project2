@@ -1,11 +1,20 @@
 .phony: clean
+LDFLAGS=-fopenmp
+CPPFLAGS=-std=c++11
 
-all: secuencial
+all: secuencial openmp
 
 secuencial: secuencial.o
-	g++ -o $@ $^ -std=c++14
+	$(CXX) -o $@ $^
 
 secuencial.o: secuencial.cpp
 
+openmp: openmp.o
+	$(CXX) -o $@ $^ $(LDFLAGS)
+
+openmp.o: openmp.cpp
+
 clean:
-	rm -f secuencial.o secuencial
+	rm -f *.o 
+	rm -f secuencial 
+	rm -f openmp
