@@ -9,6 +9,8 @@
 #include <ctype.h> //toupper y tolower
 #include <stdio.h>
 
+#include <wchar.h>
+
 using namespace std;
 
 vector<vector<string>> readFiles(string fileP){
@@ -65,25 +67,14 @@ int main(int argc, char const *argv[])
         for (auto line : lines)
         {
             int length = line.size();
-            if (length > 4)
+            if (length > 1)
             {
-                string aux = "’“";
-                replace(line[length - 1].begin(), line[length - 1].end(), ',', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '.', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), ';', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), ':', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '?', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '!', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '"', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), aux[0], ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), aux[1], ' ');
                 stringstream ss(line[length - 1]);
                 string token;
                 int count = 0;
                 while (getline(ss, token, ' '))
                 {
-                    if (toLower(token).compare(word) == 0)
-                    {
+                    if(token.find(word) != string::npos){
                         count++;
                         totalCount++;
                     }
