@@ -26,18 +26,11 @@ int main (int argc, char *argv[]) {
   MPI_Comm_size (MPI_COMM_WORLD, &size); // Number of processes
 
   string word = "brussels";
- 
+  for (int i = 0; i < word.length(); i++) {
+    word[i] = tolower(word[i]);
+  }
+
   if (rank == 0) {
-    // string toLower(string wordP)
-    // {
-    //   string word = wordP;
-    //   for (int i = 0; i < wordP.length(); i++)
-    // 	{
-    // 	  word[i] = tolower(wordP[i]);
-    // 	}
-    //   return word;
-    // }
-    
     string line;
     vector<vector<string> > lines;
     multimap<int, string, greater<int> > dictionary;
@@ -61,7 +54,6 @@ int main (int argc, char *argv[]) {
 	}
       }
     }
-    //word = toLower(word);
     int totalCount = 0;
     # pragma omp parallel for
     for (int i=0;i<lines.size();i++) {
@@ -97,16 +89,6 @@ int main (int argc, char *argv[]) {
     printf("Hello World from rank %d running on %s!\n", rank, name);
   }
   if (rank == 1) {
-    // string toLower(string wordP)
-    // {
-    //   string word = wordP;
-    //   for (int i = 0; i < wordP.length(); i++)
-    // 	{
-    // 	  word[i] = tolower(wordP[i]);
-    // 	}
-    //   return word;
-    // }
-
     string line;
     vector<vector<string> > lines;
     multimap<int, string, greater<int> > dictionary;
@@ -130,7 +112,6 @@ int main (int argc, char *argv[]) {
 	}
       }
     }
-    //word = toLower(word);
     int totalCount = 0;
     # pragma omp parallel for
     for (int i=0;i<lines.size();i++) {
@@ -166,15 +147,6 @@ int main (int argc, char *argv[]) {
     printf ("Hello World from rank %d running on %s!\n", rank, name);
   }
   if (rank == 2) {
-    // string toLower(string wordP)
-    // {
-    //   string word = wordP;
-    //   for (int i = 0; i < wordP.length(); i++)
-    // 	{
-    // 	  word[i] = tolower(wordP[i]);
-    // 	}
-    //   return word;
-    // }
     string line;
     vector<vector<string> > lines;
     multimap<int, string, greater<int> > dictionary;
@@ -198,7 +170,6 @@ int main (int argc, char *argv[]) {
 	}
       }
     }
-    //word = toLower(word);
     int totalCount = 0;
     # pragma omp parallel for
     for (int i=0;i<lines.size();i++) {
