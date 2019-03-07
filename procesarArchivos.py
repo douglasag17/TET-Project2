@@ -2,8 +2,9 @@ import pandas as pd
 import glob
 
 columns = ['id', 'title', 'content']
-allFiles = glob.glob("*.csv")
+allFiles = glob.glob("/opt/datasets/*.csv")
 frame = pd.DataFrame()
+i = 1
 for file_ in allFiles:
     df = pd.read_csv(file_,index_col=None, header=0, usecols=columns)
     df['content'] = df['content'].str.lower()
@@ -15,13 +16,14 @@ for file_ in allFiles:
     df['content'] = df['content'].str.replace('!', ' ')
     df['content'] = df['content'].str.replace('"', ' ')
     df['content'] = df['content'].str.replace('#', ' ')
-    df['content'] = df['content'].str.replace('”', ' ')
-    df['content'] = df['content'].str.replace('’', ' ')
+    
+    
     df['content'] = df['content'].str.replace('[', ' ')
     df['content'] = df['content'].str.replace(']', ' ')
     df['content'] = df['content'].str.replace('(', ' ')
     df['content'] = df['content'].str.replace(')', ' ')
-    df['content'] = df['content'].str.replace('“', ' ')
-    df['content'] = df['content'].str.replace('‘', ' ')
+    
+    
     df['content'] = df['content'].str.replace('\t', ' ')
-    df.to_csv("P"+file_, sep=',', index=True, header=True)
+    df.to_csv("Particles"+str(i)+".csv", sep=',', index=True, header=True)
+    i+=1

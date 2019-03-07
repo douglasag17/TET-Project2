@@ -1,3 +1,7 @@
+#include "mpi.h"
+#include <omp.h>
+#include <cstdio>
+#include <map>
 #include <iostream>
 #include <sstream>
 #include <fstream>
@@ -8,92 +12,228 @@
 #include <iterator>
 #include <ctype.h> //toupper y tolower
 #include <stdio.h>
-#include <omp.h>
-#include <mpi.h>
 
 using namespace std;
 
-vector<vector<string>> readFiles(string fileP){
-    string line;
-    vector<vector<string>> lines;
-    ifstream file(fileP);
-    if (file) {
-        while (getline(file, line)) {
-            size_t n = lines.size();
-            lines.resize(n + 1);
-            istringstream ss(line);
-            string field, push_field("");
-            bool no_quotes = true;
-            while (getline(ss, field, ',')) {
-                if (static_cast<size_t>(count(field.begin(), field.end(), '"')) % 2 != 0) {
-                    no_quotes = !no_quotes;
-                }
-                push_field += field + (no_quotes ? "" : ",");
-                if (no_quotes) {
-                    lines[n].push_back(push_field);
-                    push_field.clear();
-                }
-            }
-        }
-    }
-    return lines;
-}
+int main (int argc, char *argv[]) {
+  MPI_Init (&argc, &argv); // Initialize MPI envirnmnt
+  
+  int rank, size, namelen;
+  char name[MPI_MAX_PROCESSOR_NAME];
+  
+  MPI_Comm_rank (MPI_COMM_WORLD, &rank); // ID of current process
+  MPI_Get_processor_name (name, &namelen); // Hostname of node
+  MPI_Comm_size (MPI_COMM_WORLD, &size); // Number of processes
 
-string toLower(string wordP) {
-    string word = wordP;
-    for (int i = 0; i < wordP.length(); i++) {
-        word[i] = tolower(wordP[i]);
-    }
-    return word;
-}
-
-int main(int argc, char const *argv[]) {
-    multimap<int, string, greater<int>> dictionary;
-    string word = argv[1];
-    word = toLower(word);
-    vector<string> files = {"/opt/datasets/articles1.csv", "/opt/datasets/articles2.csv", "/opt/datasets/articles3.csv"};
-    int totalCount = 0;
-    for (int i = 0; i < 3; ++i) {
-        vector<vector<string>> lines = readFiles(files[i]);
-        # pragma omp parallel for
-        for (int i=0;i<lines.size();i++) {
-            vector<string> line = lines[i];
-            int length = line.size();
-            if (length > 4) {
-                string aux = "’“";
-                replace(line[length - 1].begin(), line[length - 1].end(), ',', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '.', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), ';', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), ':', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '?', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '!', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), '"', ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), aux[0], ' ');
-                replace(line[length - 1].begin(), line[length - 1].end(), aux[1], ' ');
-                stringstream ss(line[length - 1]);
-                string token;
-                int count = 0;
-                while (getline(ss, token, ' ')) {
-                    if (toLower(token).compare(word) == 0) {
-                        count++;
-                        totalCount++;
-                    }
-                }
-                if (count > 0) {
-                    dictionary.insert(pair<int, string>(count, line[1] + "\t" + line[2])); // adding to a multimap
-                }
-            }
-        }
-    }
+  string word = "brussels";
+ 
+  if (rank == 0) {
+    // string toLower(string wordP)
+    // {
+    //   string word = wordP;
+    //   for (int i = 0; i < wordP.length(); i++)
+    // 	{
+    // 	  word[i] = tolower(wordP[i]);
+    // 	}
+    //   return word;
+    // }
     
+    string line;
+    vector<vector<string> > lines;
+    multimap<int, string, greater<int> > dictionary;
+    ifstream file("Particles1.csv");
+    if (file) {
+      while (getline(file, line)) {
+	size_t n = lines.size();
+	lines.resize(n + 1);
+	istringstream ss(line);
+	string field, push_field("");
+	bool no_quotes = true;
+	while (getline(ss, field, ',')) {
+	  if (static_cast<size_t>(count(field.begin(), field.end(), '"')) % 2 != 0) {
+	    no_quotes = !no_quotes;
+	  }
+	  push_field += field + (no_quotes ? "" : ",");
+	  if (no_quotes) {
+	    lines[n].push_back(push_field);
+	    push_field.clear();
+	  }
+	}
+      }
+    }
+    //word = toLower(word);
+    int totalCount = 0;
+    # pragma omp parallel for
+    for (int i=0;i<lines.size();i++) {
+      vector<string> line = lines[i];
+      int length = line.size();
+      if (length > 1)
+	{
+	  stringstream ss(line[length - 1]);
+	  string token;
+	  int count = 0;
+	  while (getline(ss, token, ' '))
+	    {
+	      if(token.find(word) != string::npos){
+		count++;
+		totalCount++;
+	      }
+	    }
+	  if (count > 0)
+	    {
+	      dictionary.insert(pair<int, string>(count, line[1] + "\t" + line[2])); // adding to a multimap
+	    }
+	}
+    }
     // printing multimap dictionary
     multimap<int, string>::iterator itr;
     int i = 0;
-    for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) {
-        cout << itr->first << '\t' << itr->second << endl;
-        if(i == 9) break;
-        i++;
+    for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) { 
+      cout << itr->first << '\t' << itr->second << '\n';
+      if(i == 9) break;
+      i++;
     }
-    cout << word + " is " << totalCount << " times in all the news." << endl;
-    return 0;
+    cout << word + " is " << totalCount << " times in this article" << endl;
+    printf("Hello World from rank %d running on %s!\n", rank, name);
+  }
+  if (rank == 1) {
+    // string toLower(string wordP)
+    // {
+    //   string word = wordP;
+    //   for (int i = 0; i < wordP.length(); i++)
+    // 	{
+    // 	  word[i] = tolower(wordP[i]);
+    // 	}
+    //   return word;
+    // }
+
+    string line;
+    vector<vector<string> > lines;
+    multimap<int, string, greater<int> > dictionary;
+    ifstream file("Particles2.csv");
+    if (file) {
+      while (getline(file, line)) {
+	size_t n = lines.size();
+	lines.resize(n + 1);
+	istringstream ss(line);
+	string field, push_field("");
+	bool no_quotes = true;
+	while (getline(ss, field, ',')) {
+	  if (static_cast<size_t>(count(field.begin(), field.end(), '"')) % 2 != 0) {
+	    no_quotes = !no_quotes;
+	  }
+	  push_field += field + (no_quotes ? "" : ",");
+	  if (no_quotes) {
+	    lines[n].push_back(push_field);
+	    push_field.clear();
+	  }
+	}
+      }
+    }
+    //word = toLower(word);
+    int totalCount = 0;
+    # pragma omp parallel for
+    for (int i=0;i<lines.size();i++) {
+      vector<string> line = lines[i];
+      int length = line.size();
+      if (length > 1)
+        {
+          stringstream ss(line[length - 1]);
+          string token;
+          int count = 0;
+          while (getline(ss, token, ' '))
+            {
+              if(token.find(word) != string::npos){
+                count++;
+                totalCount++;
+              }
+            }
+          if (count > 0)
+            {
+              dictionary.insert(pair<int, string>(count, line[1] + "\t" + line[2])); // adding to a multimap
+            }
+        }
+    }
+    // printing multimap dictionary                                                                                                                  
+    multimap<int, string>::iterator itr;
+    int i = 0;
+    for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) {
+      cout << itr->first << '\t' << itr->second << '\n';
+      if(i == 9) break;
+      i++;
+    }
+    cout << word + " is " << totalCount << " times in this article" << endl;
+    printf ("Hello World from rank %d running on %s!\n", rank, name);
+  }
+  if (rank == 2) {
+    // string toLower(string wordP)
+    // {
+    //   string word = wordP;
+    //   for (int i = 0; i < wordP.length(); i++)
+    // 	{
+    // 	  word[i] = tolower(wordP[i]);
+    // 	}
+    //   return word;
+    // }
+    string line;
+    vector<vector<string> > lines;
+    multimap<int, string, greater<int> > dictionary;
+    ifstream file("Particles3.csv");
+    if (file) {
+      while (getline(file, line)) {
+	size_t n = lines.size();
+	lines.resize(n + 1);
+	istringstream ss(line);
+	string field, push_field("");
+	bool no_quotes = true;
+	while (getline(ss, field, ',')) {
+	  if (static_cast<size_t>(count(field.begin(), field.end(), '"')) % 2 != 0) {
+	    no_quotes = !no_quotes;
+	  }
+	  push_field += field + (no_quotes ? "" : ",");
+	  if (no_quotes) {
+	    lines[n].push_back(push_field);
+	    push_field.clear();
+	  }
+	}
+      }
+    }
+    //word = toLower(word);
+    int totalCount = 0;
+    # pragma omp parallel for
+    for (int i=0;i<lines.size();i++) {
+      vector<string> line = lines[i];
+      int length = line.size();
+      if (length > 1)
+        {
+          stringstream ss(line[length - 1]);
+          string token;
+          int count = 0;
+          while (getline(ss, token, ' '))
+            {
+              if(token.find(word) != string::npos){
+                count++;
+                totalCount++;
+              }
+            }
+          if (count > 0)
+            {
+              dictionary.insert(pair<int, string>(count, line[1] + "\t" + line[2])); // adding to a multimap
+            }
+        }
+    }
+    // printing multimap dictionary                                                                                                                  
+    multimap<int, string>::iterator itr;
+    int i = 0;
+    for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) {
+      cout << itr->first << '\t' << itr->second << '\n';
+      if(i == 9) break;
+      i++;
+    }
+    cout << word + " is " << totalCount << " times in this article" << endl;
+
+    printf ("Hello World from rank %d running on %s!\n", rank, name);
+  }
+
+  MPI_Finalize (); // Terminate MPI environment
 }

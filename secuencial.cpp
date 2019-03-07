@@ -57,7 +57,7 @@ int main(int argc, char const *argv[])
     multimap<int, string, greater<int>> dictionary;
     string word = argv[1];
     word = toLower(word);
-    vector<string> files = {"/opt/datasets/articles1.csv", "/opt/datasets/articles2.csv", "/opt/datasets/articles3.csv"};
+    vector<string> files = {"Particles1.csv", "Particles2.csv", "Particles3.csv"};
     int totalCount = 0;
     for (int i = 0; i < 3; ++i)
     {
