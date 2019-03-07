@@ -14,10 +14,14 @@
 
 ## Proceso de compilación y ejecución
     g++ -std=c++11 secuencial.cpp -o secuencial
-    ./secuencial <word>
+    time ./secuencial <word>
     
+    export OMP_NUM_THREADS=4
     g++ -std=c++11 openmp.cpp -o openmp -fopenmp
-    ./openmp <word>
+    time ./openmp <word>
+    
+    mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp
+    time mpirun -f host.txt -np 3 ./pcam
 
 ## Análisis de resultados
 - ### Versión serial
