@@ -22,5 +22,6 @@ for file_ in allFiles:
     df['content'] = df['content'].str.replace('(', ' ')
     df['content'] = df['content'].str.replace(')', ' ')
     df['content'] = df['content'].str.replace('“', ' ')
+    df['content'] = df['content'].str.replace('‘', ' ')
     df['content'] = df['content'].str.replace('\t', ' ')
     df.to_csv("P"+file_, sep=',', index=True, header=True)
