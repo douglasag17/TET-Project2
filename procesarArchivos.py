@@ -16,14 +16,14 @@ for file_ in allFiles:
     df['content'] = df['content'].str.replace('!', ' ')
     df['content'] = df['content'].str.replace('"', ' ')
     df['content'] = df['content'].str.replace('#', ' ')
-    
-    
+    df['content'] = df['content'].str.replace('”', ' ')
+    df['content'] = df['content'].str.replace('’', ' ')
     df['content'] = df['content'].str.replace('[', ' ')
     df['content'] = df['content'].str.replace(']', ' ')
     df['content'] = df['content'].str.replace('(', ' ')
     df['content'] = df['content'].str.replace(')', ' ')
-    
-    
+    df['content'] = df['content'].str.replace('“', ' ')
+    df['content'] = df['content'].str.replace('‘', ' ')
     df['content'] = df['content'].str.replace('\t', ' ')
     df.to_csv("Particles"+str(i)+".csv", sep='\t', index=True, header=True)
     i+=1
