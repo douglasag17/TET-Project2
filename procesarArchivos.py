@@ -25,5 +25,5 @@ for file_ in allFiles:
     
     
     df['content'] = df['content'].str.replace('\t', ' ')
-    df.to_csv("Particles"+str(i)+".csv", sep=',', index=True, header=True)
+    df.to_csv("Particles"+str(i)+".csv", sep='\t', index=True, header=True)
     i+=1
