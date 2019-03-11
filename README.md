@@ -13,6 +13,9 @@
 - Documentación [pcam.md](pcam.md)
 
 ## Proceso de compilación y ejecución
+
+    /opt/anaconda3/bin/python procesarArchivos.py
+    
     g++ -std=c++11 secuencial.cpp -o secuencial -O3
     time ./secuencial
     
