@@ -13,14 +13,14 @@
 - Documentación [pcam.md](pcam.md)
 
 ## Proceso de compilación y ejecución
-    g++ -std=c++11 secuencial.cpp -o secuencial
-    time ./secuencial <word>
+    g++ -std=c++11 secuencial.cpp -o secuencial -O3
+    time ./secuencial
     
     export OMP_NUM_THREADS=4
-    g++ -std=c++11 openmp.cpp -o openmp -fopenmp
-    time ./openmp <word>
+    g++ -std=c++11 openmp.cpp -o openmp -fopenmp -O3
+    time ./openmp
     
-    mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp
+    mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp -O3
     time mpirun -f host.txt -np 3 ./pcam
 
 ## Análisis de resultados

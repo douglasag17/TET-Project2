@@ -9,40 +9,7 @@
 #include <ctype.h> //toupper y tolower
 #include <stdio.h>
 
-#include <wchar.h>
-
 using namespace std;
-
-vector<vector<string>> readFiles(string fileP){
-    string line;
-    vector<vector<string>> lines;
-    ifstream file(fileP);
-    if (file)
-    {
-        while (getline(file, line))
-        {
-            size_t n = lines.size();
-            lines.resize(n + 1);
-            istringstream ss(line);
-            string field, push_field("");
-            bool no_quotes = true;
-            while (getline(ss, field, ','))
-            {
-                if (static_cast<size_t>(count(field.begin(), field.end(), '"')) % 2 != 0)
-                {
-                    no_quotes = !no_quotes;
-                }
-                push_field += field + (no_quotes ? "" : ",");
-                if (no_quotes)
-                {
-                    lines[n].push_back(push_field);
-                    push_field.clear();
-                }
-            }
-        }
-    }
-    return lines;
-}
 
 string toLower(string wordP)
 {
@@ -54,46 +21,66 @@ string toLower(string wordP)
     return word;
 }
 
-int main(int argc, char const *argv[])
-{
-    multimap<int, string, greater<int>> dictionary;
-    string word = argv[1];
-    word = toLower(word);
+bool sortinrev(const pair<int,string> &a, const pair<int,string> &b){
+    return (a.first > b.first);
+}
+
+int main(){
+    multimap<string, vector<pair<int,string>>> dictionary;
+    multimap<string, vector<pair<int,string>>>::iterator it;
     vector<string> files = {"Particles1.csv", "Particles2.csv", "Particles3.csv"};
-    int totalCount = 0;
-    for (int i = 0; i < 3; ++i)
-    {
-        vector<vector<string>> lines = readFiles(files[i]);
-        for (auto line : lines)
-        {
-            int length = line.size();
-            if (length > 1)
-            {
-                stringstream ss(line[length - 1]);
+    for (int i = 0; i < files.size(); ++i){
+        ifstream file(files[i]);
+        string pos;
+        string id;
+        string title;
+        string content;
+        if (file){
+            while (getline(file, pos, '\t')){
+                getline(file, id, '\t');
+                getline(file, title, '\t');
+                getline(file, content);
+                stringstream ss(content);
                 string token;
-                int count = 0;
                 while (getline(ss, token, ' '))
                 {
-                    if(token.find(word) != string::npos){
-                        count++;
-                        totalCount++;
+                    vector<pair<int,string>> article;
+                    it = dictionary.find(token);
+                    if(it == dictionary.end()){
+                        article.push_back(make_pair(1, id + "," + title));
+                        dictionary.insert(make_pair(token, article));
+                    }else{
+                        if(it->second.back().second.compare(id + "," + title) == 0){
+                            it->second.back().first += 1;
+                        }else{
+                            it->second.resize(it->second.size()+1);
+                            it->second.at(it->second.size()-1) = make_pair(1, id + "," + title);
+                        }
                     }
-                }
-                if (count > 0)
-                {
-                    dictionary.insert(pair<int, string>(count, line[1] + "\t" + line[2])); // adding to a multimap
                 }
             }
         }
     }
-    // printing multimap dictionary
-    multimap<int, string>::iterator itr;
-    int i = 0;
-    for (itr = dictionary.begin(); itr != dictionary.end(); ++itr) {
-        cout << itr->first << '\t' << itr->second << endl;
-        if(i == 9) break;
-        i++;
-    }
-    cout << word + " is " << totalCount << " times in all the news." << endl;
+    multimap<string, vector<pair<int,string>>>::iterator itAux;
+    string word;
+    do{
+        int i, total = 0;
+        cout << "Enter the word (/ to quit): ";
+        cin >> word;
+        word = toLower(word);
+        itAux = dictionary.find(word);
+        if(itAux != dictionary.end()){
+            sort(itAux->second.begin(), itAux->second.end(), sortinrev);
+            for (i = 0; i < itAux->second.size(); ++i){
+                if(i < 10){
+                    cout << itAux->second[i].first << " "<< itAux->second[i].second << endl;
+                }
+                total += itAux->second[i].first;
+            }
+            cout << word << " is " << total << " times in all the news." << endl;
+        }else{
+            cout << word <<" not found." << endl;
+        }
+    }while(word != "/");
     return 0;
 }
