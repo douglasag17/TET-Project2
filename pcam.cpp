@@ -39,8 +39,6 @@ string toLower(string wordP) {
     char valueRec[N];
     char vectorKeyRec[N];
     char vectorValRec[N];
-    char vectorKeyRec2[N];
-    char vectorValRec2[N];
 
     if (rank == 0) {
       multimap<string, vector<pair<int,string>>> dictionary;
@@ -105,14 +103,8 @@ string toLower(string wordP) {
 	    MPI_Recv(&vectorValRec, N, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &info);
 	    vectorFinal.push_back(make_pair(atoi(vectorKeyRec), vectorValRec));
 	  }
-	  cout<<"HOLIIIIIIIIIIIII"<<endl;
-	  /*for (int i = 0; i < 10; i++) {
-            MPI_Recv(&vectorKeyRec2, N, MPI_CHAR, 2, 2, MPI_COMM_WORLD, &info);
-            MPI_Recv(&vectorValRec2, N, MPI_CHAR, 2, 2, MPI_COMM_WORLD, &info);
-            vectorFinal.push_back(make_pair(atoi(vectorKeyRec2), vectorValRec2));
-	    }*/ 
         }else{
-	  //cout << word << " not found." << endl;
+	  cout << word << " not found." << endl;
         }
 	sort(vectorFinal.begin(), vectorFinal.end(), sortinrev);
 	for(int i = 0; i < 10; ++i){
