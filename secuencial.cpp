@@ -53,8 +53,7 @@ int main(){
                         if(it->second.back().second.compare(id + "," + title) == 0){
                             it->second.back().first += 1;
                         }else{
-                            it->second.resize(it->second.size()+1);
-                            it->second.at(it->second.size()-1) = make_pair(1, id + "," + title);
+                            it->second.push_back(make_pair(1, id + "," + title));
                         }
                     }
                 }
