@@ -39,6 +39,7 @@ string toLower(string wordP) {
     char valueRec[N];
     char vectorKeyRec[N];
     char vectorValRec[N];
+    char totalRec[10];
 
     if (rank == 0) {
       multimap<string, vector<pair<int,string>>> dictionary;
@@ -82,7 +83,6 @@ string toLower(string wordP) {
 	int i, total = 0;
         cout << "Enter the word (/ to quit): ";
         cin >> word;
-	
         word = toLower(word);
         const char *wordSend = word.c_str();
         MPI_Send(wordSend, strlen(wordSend), MPI_CHAR, 1, 0, MPI_COMM_WORLD);
@@ -95,9 +95,14 @@ string toLower(string wordP) {
 	      //cout << itAux->second[i].first << " " << itAux->second[i].second << endl;
 	      vectorFinal.push_back(make_pair(itAux->second[i].first, itAux->second[i].second));
 	    }
-	    //total += itAux->second[i].first;
+	    total += itAux->second[i].first;
 	  }
-	  //cout << word << " is " << total << " times in all the news." << endl;
+	  for(int i = 0; i < 2; ++i){
+	    MPI_Recv(&totalRec, 10, MPI_CHAR, MPI_ANY_SOURCE, 3, MPI_COMM_WORLD, &info);
+	    int totalRecAux = atoi(totalRec);
+	    total += totalRecAux;
+	  }
+	  cout << word << " is " << total << " times in all the news." << endl;
 	  for (int i = 0; i < 20; i++) {
 	    MPI_Recv(&vectorKeyRec, N, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &info);
 	    MPI_Recv(&vectorValRec, N, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &info);
@@ -167,6 +172,9 @@ string toLower(string wordP) {
 	  }
 	  total += itAux->second[i].first;
         }
+	string totalStr = to_string(total);
+	const char *totalSend = totalStr.c_str();
+	MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);
         //cout << word << " is " << total << " times in all the news." << endl;
       }else{
         //cout << word <<" not found." << endl;
@@ -218,7 +226,7 @@ string toLower(string wordP) {
         sort(itAux->second.begin(), itAux->second.end(), sortinrev);
         for (i = 0; i < itAux->second.size(); ++i){
           if(i < 10){
-            // cout << itAux->second[i].first << " "<< itAux->second[i].second << endl;                                                                                              
+            // cout << itAux->second[i].first << " "<< itAux->second[i].second << endl;
             string key = to_string(itAux->second[i].first);
             const char *keySend = key.c_str();
             string value = itAux->second[i].second;
@@ -228,6 +236,9 @@ string toLower(string wordP) {
           }
           total += itAux->second[i].first;
         }
+	string totalStr = to_string(total);
+        const char *totalSend = totalStr.c_str();
+        MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);
         //cout << word << " is " << total << " times in all the news." << endl;                                                                                                      
       }else{
         //cout << word <<" not found." << endl;                                                                                                                                      
