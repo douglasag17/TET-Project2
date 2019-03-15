@@ -86,7 +86,9 @@ string toLower(string wordP) {
 	memset(totalRec, 0, sizeof(totalRec));
         cout << "Enter the word (/ to quit): ";
         cin >> word;
-	if(word.compare("/") == 0) break;
+	if(word.compare("/") == 0){
+	  MPI_Abort(MPI_COMM_WORLD, MPI_SUCCESS);
+	}
         word = toLower(word);
         const char *wordSend = word.c_str();
         MPI_Send(wordSend, strlen(wordSend), MPI_CHAR, 1, 0, MPI_COMM_WORLD);
@@ -118,7 +120,7 @@ string toLower(string wordP) {
         }else{
 	  cout << word << " not found." << endl;
         }
-      }//while(word.compare("/") != 0);
+      }
     }    
     if (rank == 1) {
       multimap<string, vector<pair<int,string>>> dictionary;
@@ -246,4 +248,5 @@ string toLower(string wordP) {
       }
     }
     MPI_Finalize();
-}
+    return 0;
+  }
