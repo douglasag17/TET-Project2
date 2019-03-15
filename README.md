@@ -12,7 +12,7 @@
 
 - Documentación [pcam.md](pcam.md)
 
-## Proceso de compilación y ejecución
+## Proceso de compilación y ejecución en el DCA
 ### Procesamiento de los datasets
 - #### Ejecutar
 
