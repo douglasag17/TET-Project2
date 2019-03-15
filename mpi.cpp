@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <string.h>
 #include "mpi.h"
-#include <omp.h>
 #define N 110
 
 using namespace std;
