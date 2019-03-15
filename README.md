@@ -57,6 +57,24 @@
 - ### Versión serial
         El tiempo que toma el algoritmo para ejecutar en serial es de 213 segundos en el DCA.
         La siguiente imagen representa un ejemplo de ejecución haciendo búsqueda de trump.
-        ![Screenshot](imagenes/secuencial.png) 
+        
+![Screenshot](imagenes/secuencial.png) 
         
 - ### Versión paralela
+        El análisis en paralelo se hizo bajo dos arquitecturas: OpenMP y MPI+OpenMP.
+        Para ambos casos se realizaron ejecuciones con 1,2,3 y 4 hilos.
+        Los resultados al implementar OpenMP pueden evidenciarse en la siguiente tabla y gráfica.
+        
+![Screenshot](imagenes/openmp.png)
+![Screenshot](imagenes/graficaOpenmp.png)
+
+        El tiempo que toma el algoritmo para ejecutar en paralelo (solo MPI) es de 36 segundos en el DCA.
+        Los resultados al implementar MPI+OpenMP pueden evidenciarse en la siguiente tabla y gráfica.
+        
+![Screenshot](imagenes/mpi_openmp.png)
+![Screenshot](imagenes/grafica_mpi_openmp.png)
+
+        Con base en lo anterior, puede concluirse que la implementación de OpenMp y MPI mejoran el speedUp y la 
+        eficiencia del algoritmo. Sin embargo, el aumento en el número de los hilos no siempre aumenta el speedUp,
+        inclusive en algunos casos entre más hilos, este se ve afectado de manera negativa.
+        
