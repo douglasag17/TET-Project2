@@ -94,6 +94,6 @@ int main(){
     }else{
       cout << word <<" not found." << endl;
     }
-  }while(word != "/");
+  }while(word.compare("/") != 0);
   return 0;
  }
