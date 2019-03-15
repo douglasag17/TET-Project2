@@ -57,6 +57,6 @@
 - ### Versión serial
         El tiempo que toma el algoritmo para ejecutar en serial es de 213 segundos en el DCA.
         La siguiente imagen representa un ejemplo de ejecución haciendo búsqueda de trump.
-        ![secuencial]\(https://github.com/douglasag17/TET-Project2/tree/master/imagenes/secuencial.png) 
+        ![Screenshot](imagenes/secuencial.png) 
         
 - ### Versión paralela
