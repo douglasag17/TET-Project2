@@ -78,7 +78,7 @@ string toLower(string wordP) {
       }
       multimap<string, vector<pair<int,string>>>::iterator itAux;
       string word;
-      do{
+      while(true){
         vector<pair<int,string>> vectorFinal;
 	int i, total = 0;
 	memset(vectorKeyRec, 0, sizeof(vectorKeyRec));
@@ -86,6 +86,7 @@ string toLower(string wordP) {
 	memset(totalRec, 0, sizeof(totalRec));
         cout << "Enter the word (/ to quit): ";
         cin >> word;
+	if(word.compare("/") == 0) break;
         word = toLower(word);
         const char *wordSend = word.c_str();
         MPI_Send(wordSend, strlen(wordSend), MPI_CHAR, 1, 0, MPI_COMM_WORLD);
@@ -104,21 +105,20 @@ string toLower(string wordP) {
 	    int totalRecAux = atoi(totalRec);
 	    total += totalRecAux;
 	  }
-	  cout << word << " is " << total << " times in all the news." << endl;
 	  for (int i = 0; i < 20; i++) {
 	    MPI_Recv(&vectorKeyRec, N, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &info);
 	    MPI_Recv(&vectorValRec, N, MPI_CHAR, MPI_ANY_SOURCE, 1, MPI_COMM_WORLD, &info);
 	    vectorFinal.push_back(make_pair(atoi(vectorKeyRec), vectorValRec));
 	  }
+	  sort(vectorFinal.begin(), vectorFinal.end(), sortinrev);
+	  for(int i = 0; i < 10; ++i){
+	    cout << vectorFinal[i].first << " " << vectorFinal[i].second << endl;
+	  }
+	  cout << word << " is " << total << " times in all the news." << endl;
         }else{
 	  cout << word << " not found." << endl;
         }
-	sort(vectorFinal.begin(), vectorFinal.end(), sortinrev);
-	for(int i = 0; i < 10; ++i){
-	  cout << vectorFinal[i].first << " " << vectorFinal[i].second << endl;
-	}
-	
-      }while(word.compare("/") != 0);
+      }//while(word.compare("/") != 0);
     }    
     if (rank == 1) {
       multimap<string, vector<pair<int,string>>> dictionary;
@@ -162,10 +162,6 @@ string toLower(string wordP) {
 	memset(valueRec, 0, sizeof(valueRec));
 	MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
 	word = valueRec;
-	if (word.compare("/") == 0) {
-	  printf("Process %d exiting work loop.\n", rank);
-	  break;
-	}
 	itAux = dictionary.find(word);
 	if(itAux != dictionary.end()){
 	  sort(itAux->second.begin(), itAux->second.end(), sortinrev);
@@ -229,10 +225,6 @@ string toLower(string wordP) {
 	memset(valueRec, 0, sizeof(valueRec));
 	MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
 	word = valueRec;
-	if (word.compare("/") == 0) {
-	  printf("Process %d exiting work loop.\n", rank);
-	  break;
-	}
 	itAux = dictionary.find(word);
 	if(itAux != dictionary.end()){
 	  sort(itAux->second.begin(), itAux->second.end(), sortinrev);
