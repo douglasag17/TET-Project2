@@ -13,22 +13,45 @@
 - Documentación [pcam.md](pcam.md)
 
 ## Proceso de compilación y ejecución
+### Procesamiento de los datasets
+- #### Ejecuta
 
-    /opt/anaconda3/bin/python procesarArchivos.py
-    
-    g++ -std=c++11 secuencial.cpp -o secuencial
-    time ./secuencial
-    
-    export OMP_NUM_THREADS=2
-    g++ -std=c++11 openmp.cpp -o openmp -fopenmp
-    time ./openmp
-    
-    mpic++ -std=c++11 mpi.cpp -o mpi
-    time mpirun -f host.txt -np 3 ./mpi
-    
-    export OMP_NUM_THREADS=2
-    mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp
-    time mpirun -f host.txt -np 3 ./pcam
+        /opt/anaconda3/bin/python procesarArchivos.py
+### Programa secuencial
+- #### Compilar
+
+        g++ -std=c++11 secuencial.cpp -o secuencial
+- #### Ejecutar
+
+        time ./secuencial
+### Programa paralelo hecho con OpenMP
+- #### Asignar número de procesadores a usar
+
+        export OMP_NUM_THREADS=2
+- #### Compilar
+
+        g++ -std=c++11 openmp.cpp -o openmp -fopenmp
+        
+- #### Ejecutar
+
+        time ./openmp
+### Programa paralelo hecho con MPI
+- #### Compilar
+
+        mpic++ -std=c++11 mpi.cpp -o mpi
+- #### Ejecutar
+
+        time mpirun -f host.txt -np 3 ./mpi
+### Programa paralelo hecho con OpenMP + MPI
+- #### Asignar número de procesadores a usar
+
+        export OMP_NUM_THREADS=2
+- #### Compilar
+
+        mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp
+- #### Ejecutar
+
+        time mpirun -f host.txt -np 3 ./pcam
 
 ## Análisis de resultados
 - ### Versión serial
