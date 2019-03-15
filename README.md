@@ -14,7 +14,7 @@
 
 ## Proceso de compilación y ejecución
 ### Procesamiento de los datasets
-- #### Ejecuta
+- #### Ejecutar
 
         /opt/anaconda3/bin/python procesarArchivos.py
 ### Programa secuencial
