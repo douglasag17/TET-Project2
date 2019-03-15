@@ -78,9 +78,12 @@ string toLower(string wordP) {
       }
       multimap<string, vector<pair<int,string>>>::iterator itAux;
       string word;
-      //do{
+      do{
         vector<pair<int,string>> vectorFinal;
 	int i, total = 0;
+	memset(vectorKeyRec, 0, sizeof(vectorKeyRec));
+	memset(vectorValRec, 0, sizeof(vectorValRec));
+	memset(totalRec, 0, sizeof(totalRec));
         cout << "Enter the word (/ to quit): ";
         cin >> word;
         word = toLower(word);
@@ -92,7 +95,6 @@ string toLower(string wordP) {
 	  sort(itAux->second.begin(), itAux->second.end(), sortinrev);
 	  for (i = 0; i < itAux->second.size(); ++i){
 	    if(i < 10){
-	      //cout << itAux->second[i].first << " " << itAux->second[i].second << endl;
 	      vectorFinal.push_back(make_pair(itAux->second[i].first, itAux->second[i].second));
 	    }
 	    total += itAux->second[i].first;
@@ -115,7 +117,8 @@ string toLower(string wordP) {
 	for(int i = 0; i < 10; ++i){
 	  cout << vectorFinal[i].first << " " << vectorFinal[i].second << endl;
 	}
-	//}while(word != "/");
+	
+      }while(word.compare("/") != 0);
     }    
     if (rank == 1) {
       multimap<string, vector<pair<int,string>>> dictionary;
@@ -152,32 +155,35 @@ string toLower(string wordP) {
 	  }
         }
       }
-      multimap<string, vector<pair<int,string>>>::iterator itAux;
-      string word;
-      int i, total = 0;
-      MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
-      word = valueRec;
-      itAux = dictionary.find(word);
-      if(itAux != dictionary.end()){
-        sort(itAux->second.begin(), itAux->second.end(), sortinrev);
-        for (i = 0; i < itAux->second.size(); ++i){
-	  if(i < 10){
-	    // cout << itAux->second[i].first << " "<< itAux->second[i].second << endl;
-	    string key = to_string(itAux->second[i].first);
-	    const char *keySend = key.c_str();
-	    string value = itAux->second[i].second;
-	    const char *valueSend = value.c_str();
-	    MPI_Send(keySend, strlen(keySend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
-	    MPI_Send(valueSend, strlen(valueSend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+      while(true){
+	multimap<string, vector<pair<int,string>>>::iterator itAux;
+	string word;
+	int i, total = 0;
+	memset(valueRec, 0, sizeof(valueRec));
+	MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
+	word = valueRec;
+	if (word.compare("/") == 0) {
+	  printf("Process %d exiting work loop.\n", rank);
+	  break;
+	}
+	itAux = dictionary.find(word);
+	if(itAux != dictionary.end()){
+	  sort(itAux->second.begin(), itAux->second.end(), sortinrev);
+	  for (i = 0; i < itAux->second.size(); ++i){
+	    if(i < 10){
+	      string key = to_string(itAux->second[i].first);
+	      const char *keySend = key.c_str();
+	      string value = itAux->second[i].second;
+	      const char *valueSend = value.c_str();
+	      MPI_Send(keySend, strlen(keySend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+	      MPI_Send(valueSend, strlen(valueSend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+	    }
+	    total += itAux->second[i].first;
 	  }
-	  total += itAux->second[i].first;
-        }
-	string totalStr = to_string(total);
-	const char *totalSend = totalStr.c_str();
-	MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);
-        //cout << word << " is " << total << " times in all the news." << endl;
-      }else{
-        //cout << word <<" not found." << endl;
+	  string totalStr = to_string(total);
+	  const char *totalSend = totalStr.c_str();
+	  MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);
+	}
       }
     }
 
@@ -216,34 +222,36 @@ string toLower(string wordP) {
           }
         }
       }
-      multimap<string, vector<pair<int,string>>>::iterator itAux;
-      string word;
-      int i, total = 0;
-      MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
-      word = valueRec;
-      itAux = dictionary.find(word);
-      if(itAux != dictionary.end()){
-        sort(itAux->second.begin(), itAux->second.end(), sortinrev);
-        for (i = 0; i < itAux->second.size(); ++i){
-          if(i < 10){
-            // cout << itAux->second[i].first << " "<< itAux->second[i].second << endl;
-            string key = to_string(itAux->second[i].first);
-            const char *keySend = key.c_str();
-            string value = itAux->second[i].second;
-            const char *valueSend = value.c_str();
-            MPI_Send(keySend, strlen(keySend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
-            MPI_Send(valueSend, strlen(valueSend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
-          }
-          total += itAux->second[i].first;
-        }
-	string totalStr = to_string(total);
-        const char *totalSend = totalStr.c_str();
-        MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);
-        //cout << word << " is " << total << " times in all the news." << endl;                                                                                                      
-      }else{
-        //cout << word <<" not found." << endl;                                                                                                                                      
+      while(true){
+	multimap<string, vector<pair<int,string>>>::iterator itAux;
+	string word;
+	int i, total = 0;
+	memset(valueRec, 0, sizeof(valueRec));
+	MPI_Recv(&valueRec, N, MPI_CHAR, 0, 0, MPI_COMM_WORLD, &info);
+	word = valueRec;
+	if (word.compare("/") == 0) {
+	  printf("Process %d exiting work loop.\n", rank);
+	  break;
+	}
+	itAux = dictionary.find(word);
+	if(itAux != dictionary.end()){
+	  sort(itAux->second.begin(), itAux->second.end(), sortinrev);
+	  for (i = 0; i < itAux->second.size(); ++i){
+	    if(i < 10){
+	      string key = to_string(itAux->second[i].first);
+	      const char *keySend = key.c_str();
+	      string value = itAux->second[i].second;
+	      const char *valueSend = value.c_str();
+	      MPI_Send(keySend, strlen(keySend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+	      MPI_Send(valueSend, strlen(valueSend), MPI_CHAR, 0, 1, MPI_COMM_WORLD);
+	    }
+	    total += itAux->second[i].first;
+	  }
+	  string totalStr = to_string(total);
+	  const char *totalSend = totalStr.c_str();
+	  MPI_Send(totalSend, strlen(totalSend), MPI_CHAR, 0, 3, MPI_COMM_WORLD);                                                                                                      
+	}
       }
     }
-
     MPI_Finalize();
 }
