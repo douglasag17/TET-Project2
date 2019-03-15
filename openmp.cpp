@@ -76,10 +76,13 @@ int main(){
   cout << "Time: " << (double)(clock() - start)/(CLOCKS_PER_SEC) << endl;
   multimap<string, vector<pair<int,string>>>::iterator itAux;
   string word;
-  do{
+  while(true){
     int i, total = 0;
     cout << "Enter the word (/ to quit): ";
     cin >> word;
+    if(word.compare("/") == 0){
+    	exit(0);
+    }
     word = toLower(word);
     itAux = dictionary.find(word);
     if(itAux != dictionary.end()){
@@ -94,6 +97,6 @@ int main(){
     }else{
       cout << word <<" not found." << endl;
     }
-  }while(word.compare("/") != 0);
+  }
   return 0;
  }
