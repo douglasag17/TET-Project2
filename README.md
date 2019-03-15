@@ -19,10 +19,14 @@
     g++ -std=c++11 secuencial.cpp -o secuencial
     time ./secuencial
     
-    export OMP_NUM_THREADS=4
+    export OMP_NUM_THREADS=2
     g++ -std=c++11 openmp.cpp -o openmp -fopenmp
     time ./openmp
     
+    mpic++ -std=c++11 mpi.cpp -o mpi
+    time mpirun -f host.txt -np 3 ./mpi
+    
+    export OMP_NUM_THREADS=2
     mpic++ -std=c++11 pcam.cpp -o pcam -fopenmp
     time mpirun -f host.txt -np 3 ./pcam
 
