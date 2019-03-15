@@ -55,4 +55,7 @@
 
 ## Análisis de resultados
 - ### Versión serial
+        El tiempo que toma el algoritmo para ejecutar en serial es de 213 segundos en el DCA.
+        La siguiente imagen representa un ejemplo de ejecución haciendo búsqueda de trump.
+        
 - ### Versión paralela
