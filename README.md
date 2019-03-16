@@ -1,6 +1,6 @@
 # Tópicos Especiales en Telemática Proyecto 2: Analítica de Texto - HPC
 
-- Douglas Ardila Garcés dardila5@eafit.edu.co
+- Douglas Ardila Garcés dardila5@eafit.edu.co   [VIDEO](https://youtu.be/FDTqBQkjapo)
 - Andrés Felipe Avendaño aavenda1@eafit.edu.co
 - Felipe Macías Herrera fmacias1@eafit.edu.co
 
