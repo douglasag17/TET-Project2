@@ -68,7 +68,7 @@
         Los resultados al implementar OpenMP pueden evidenciarse en la siguiente tabla y gráfica.
         
 <p align="center">
-        <img src="imagenes/openmp.png" width="500px" height="300px">
+        <img src="imagenes/openmp_table.png" width="500px" height="300px">
 </p>
 
 <p align="center">
