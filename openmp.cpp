@@ -28,7 +28,7 @@ bool sortinrev(const pair<int,string> &a, const pair<int,string> &b){
 }
 
 int main(){
-  clock_t start = clock();
+  //clock_t start = clock();
   multimap<string, vector<pair<int,string>>> dictionary;
   multimap<string, vector<pair<int,string>>>::iterator it;
   vector<string> files = {"Particles1.csv", "Particles2.csv", "Particles3.csv"};
@@ -73,7 +73,7 @@ int main(){
 	}
      }
   }
-  cout << "Time: " << (double)(clock() - start)/(CLOCKS_PER_SEC) << endl;
+  //cout << "Time: " << (double)(clock() - start)/(CLOCKS_PER_SEC) << endl;
   multimap<string, vector<pair<int,string>>>::iterator itAux;
   string word;
   while(true){
