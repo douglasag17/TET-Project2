@@ -1,8 +1,14 @@
 # Tópicos Especiales en Telemática Proyecto 2: Analítica de Texto - HPC
 
-- Douglas Ardila Garcés dardila5@eafit.edu.co   [VIDEO](https://youtu.be/FDTqBQkjapo)
+- Douglas Ardila Garcés dardila5@eafit.edu.co
 - Andrés Felipe Avendaño aavenda1@eafit.edu.co
 - Felipe Macías Herrera fmacias1@eafit.edu.co
+
+# Videos sustentación
+- Serial:
+- OpenMP: [Video](https://youtu.be/FDTqBQkjapo)
+- MPI:
+- MPI + OpenMP:
 
 ## Diseño bajo multihilos con el acercamiento OpenMP
 
