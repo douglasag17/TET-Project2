@@ -17,3 +17,5 @@ La estructura secuencial es aquella en la que una acción (instrucción) sigue a
 En las ciencias de la computación, un algoritmo paralelo, en oposición a los algoritmos clásicos o algoritmos secuenciales, es un algoritmo que puede ser ejecutado por partes en el mismo instante de tiempo por varias unidades de procesamiento, para finalmente unir todas las partes y obtener el resultado correcto.
 
 Bajo esta metodología lo que hicimos fue paralelizar el bloque de código en donde se hace el conteo de cada palabra presente en cada artículo, ya que esta parte del programa es la que más toma tiempo, toma casi que la totalidad de la ejecucion del programa.
+
+Video: [Sustentación OpenMP](https://youtu.be/FDTqBQkjapo)
