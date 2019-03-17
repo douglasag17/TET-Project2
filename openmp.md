@@ -10,6 +10,12 @@ OpenMP se basa en el modelo fork-join, paradigma que proviene de los sistemas Un
 </p>
 Figura 1.
 
+
+
+La finalidad principal consiste en reducir el tiempo de ejecución:
+- Si el tiempo secuencial es t(n)
+- Con p procesadores se intenta reducir el tiempo a t(n) / p
+
 ## Implementación
 
 La estructura secuencial es aquella en la que una acción (instrucción) sigue a otra en secuencia. Las tareas se suceden de tal modo que la salida de una es la entrada de la siguiente y así sucesivamente hasta el fin del proceso.
