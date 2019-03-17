@@ -11,4 +11,11 @@ OpenMP se basa en el modelo fork-join, paradigma que proviene de los sistemas Un
 Figura 1.
 
 ## Implementación
-Bajo esta metodología lo que hicimos fue paralelizar el bloque de código en donde se hace el conteo de cada palabra presente en cada artículo, ya que esta parte del programa es la que más toma tiempo a la hora de ejecutar el programa.
+
+La estructura secuencial es aquella en la que una acción (instrucción) sigue a otra en secuencia. Las tareas se suceden de tal modo que la salida de una es la entrada de la siguiente y así sucesivamente hasta el fin del proceso.
+
+En las ciencias de la computación, un algoritmo paralelo, en oposición a los algoritmos clásicos o algoritmos secuenciales, es un algoritmo que puede ser ejecutado por partes en el mismo instante de tiempo por varias unidades de procesamiento, para finalmente unir todas las partes y obtener el resultado correcto.
+
+Bajo esta metodología lo que hicimos fue paralelizar el bloque de código en donde se hace el conteo de cada palabra presente en cada artículo, ya que esta parte del programa es la que más toma tiempo, toma casi que la totalidad de la ejecucion del programa.
+
+ [Analisis de resultados](readme.md)
