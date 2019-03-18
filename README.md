@@ -8,7 +8,7 @@
 - Serial:
 - OpenMP: [Video](https://youtu.be/FDTqBQkjapo)
 - MPI:[Video](https://www.youtube.com/watch?v=ukqgh4f30nc&feature=youtu.be)
-- MPI + OpenMP:
+- MPI + OpenMP: [Video](https://www.youtube.com/watch?v=Up8j8VKnJAo&feature=youtu.be)
 
 ## Diseño bajo multihilos con el acercamiento OpenMP
 
