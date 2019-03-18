@@ -27,7 +27,7 @@ Descomposición funcional
  - Impresión de resultados.
 
 - ### Comunicaciones
-
+En esta etapa se define como va a ser la comunicacion, entre quienes se comunican y que se envian, para nuestro proyecto propusimos que la comunicacion se hará entre el nodo maestro y los esclavos, enviandonos en el sentido maestro-esclavo la palabra que se va a buscar, y en el sentido esclavo-maestro se va a enviar el resultado de la busqueda, dividido en dos envios diferentes, que son la noticia y el numero de veces que aparece dicha palabra en esa noticia, logrando asi minimizar el numero de paso de mensajes entre los nodos que podiran disminuir el rendimiento del programa.
 - ### Aglomeración
 
 Para el tercer paso, es necesario entender la posibilidad de particionar las tareas repetitivas pero independientes en diferentes procesadores, para así obtener mejores velocidades en el momento de buscar la frecuencia de una palabra en una noticia, disminuyendo al máximo el número de veces que se tengan que comunicar entre los nodos, posterior a esto, recopilar estas frecuencias y definir las 10 con mayor número.
