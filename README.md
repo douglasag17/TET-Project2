@@ -7,7 +7,7 @@
 # Videos sustentación
 - Serial:
 - OpenMP: [Video](https://youtu.be/FDTqBQkjapo)
-- MPI:
+- MPI:[Video](https://www.youtube.com/watch?v=ukqgh4f30nc&feature=youtu.be)
 - MPI + OpenMP:
 
 ## Diseño bajo multihilos con el acercamiento OpenMP
