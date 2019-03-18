@@ -5,7 +5,7 @@
 - Felipe Macías Herrera fmacias1@eafit.edu.co
 
 # Videos sustentación
-- Serial:
+- Serial: [Video](https://www.youtube.com/watch?v=T5xmjTie4TU)
 - OpenMP: [Video](https://youtu.be/FDTqBQkjapo)
 - MPI:[Video](https://www.youtube.com/watch?v=ukqgh4f30nc&feature=youtu.be)
 - MPI + OpenMP: [Video](https://www.youtube.com/watch?v=Up8j8VKnJAo&feature=youtu.be)
